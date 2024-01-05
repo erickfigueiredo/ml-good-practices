@@ -1,1 +1,3 @@
-# ml-good-practices
+# Boas Práticas no Desenvolvimento de Projetos em Ciência de Dados
+
+Em desenvolvimento...
