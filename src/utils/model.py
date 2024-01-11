@@ -19,7 +19,18 @@ def plot_learning_curve(losses: dict, num_epochs: int = 100, size: tuple = (8, 5
         'color': '#ff9e00'
     }
 }) -> None:
+    """
+    Plots the learning curve for training and validation losses.
 
+    Args:
+    - losses (dict): Dictionary containing training and validation losses.
+    - num_epochs (int): Number of epochs to plot.
+    - size (tuple): Size of the plot (default: (8, 5)).
+    - meta (dict): Metadata for plotting including title and color for each loss group.
+
+    Returns:
+    - None
+    """
     plt.figure(figsize=size)
     num_epochs = min(len(losses['train']), num_epochs)
     for loss_group in losses:
@@ -34,6 +45,18 @@ def plot_learning_curve(losses: dict, num_epochs: int = 100, size: tuple = (8, 5
 
 
 def calc_validation_perform(model: nn.Module, criterion: nn.Module, val_loader: DataLoader, device: str = DEVICE) -> float:
+    """
+    Calculates the average validation loss for a given model.
+
+    Args:
+    - model (nn.Module): PyTorch model.
+    - criterion (nn.Module): Loss function.
+    - val_loader (DataLoader): Validation data loader.
+    - device (str): Device for computation (default: DEVICE).
+
+    Returns:
+    - float: Average validation loss.
+    """
     model.eval()
 
     total_loss = 0
@@ -50,6 +73,17 @@ def calc_validation_perform(model: nn.Module, criterion: nn.Module, val_loader: 
 
 
 def load_model(model: nn.Module, model_path: str, device: str = DEVICE) -> nn.Module:
+    """
+    Loads pre-trained model weights from a specified path.
+
+    Args:
+    - model (nn.Module): PyTorch model.
+    - model_path (str): Path to the saved model weights.
+    - device (str): Device for computation (default: DEVICE).
+
+    Returns:
+    - nn.Module: Model with loaded weights.
+    """
     model.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
     model.eval()
 
@@ -57,6 +91,22 @@ def load_model(model: nn.Module, model_path: str, device: str = DEVICE) -> nn.Mo
 
 
 def optimize(model: nn.Module, criterion: nn.Module, optimizer: optim.Optimizer, train_loader: DataLoader, val_loader: DataLoader = None, epochs=EPOCHS, device: str = DEVICE, save_path='./model.pt'):
+    """
+    Trains a PyTorch model using the specified optimizer and loss function.
+
+    Args:
+    - model (nn.Module): PyTorch model.
+    - criterion (nn.Module): Loss function.
+    - optimizer (optim.Optimizer): Optimizer.
+    - train_loader (DataLoader): Training data loader.
+    - val_loader (DataLoader): Validation data loader (default: None).
+    - epochs (int): Number of training epochs (default: EPOCHS).
+    - device (str): Device for computation (default: DEVICE).
+    - save_path (str): Path to save the trained model (default: './model.pt').
+
+    Returns:
+    - dict: Dictionary containing training and validation losses.
+    """
     model.to(device)
     train_losses, val_losses = [], []
 
@@ -98,6 +148,18 @@ def optimize(model: nn.Module, criterion: nn.Module, optimizer: optim.Optimizer,
 
 
 def evaluate(model: nn.Module, dataloader: DataLoader, predict_only: bool = True, device: str = DEVICE) -> tuple:
+    """
+    Evaluates a PyTorch model on a given dataset.
+
+    Args:
+    - model (nn.Module): PyTorch model.
+    - dataloader (DataLoader): Data loader for evaluation.
+    - predict_only (bool): If True, returns predictions only; if False, returns predictions, true labels, and probabilities (default: True).
+    - device (str): Device for computation (default: DEVICE).
+
+    Returns:
+    - tuple: If predict_only is True, returns a tuple with predictions; if False, returns a tuple with predictions, true labels, and probabilities.
+    """
     model.eval()
 
     predictions = []
@@ -130,4 +192,13 @@ def evaluate(model: nn.Module, dataloader: DataLoader, predict_only: bool = True
 
 
 def build_dataloader(dataset: Dataset, batch_size: int = BATCH_SIZE, n_workers: int = N_WORKERS, shuffle: bool = True):
+    """
+    Builds a DataLoader for a given dataset.
+
+    Args:
+    - dataset (Dataset): PyTorch Dataset.
+    - batch_size (int): Batch size for the DataLoader (default: BATCH_SIZE).
+    - n_workers (int): Number of workers for data loading (default: N_WORKERS).
+    - shuffle (bool): Whether to shuffle the data
+    """
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=n_workers)
