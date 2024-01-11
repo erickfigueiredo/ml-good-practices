@@ -48,6 +48,12 @@ class ImageClassificationDataset(Dataset):
     def data(self) -> pd.DataFrame:
         return self._data
 
+    def export_classes_reference(self, save_path='./'):
+        if self._is_training:
+            pd.DataFrame({'class': self._class_names}).to_csv(os.path.join(save_path, 'reference_classes.csv'), index=False)
+        else:
+            raise Exception('Your data has no classes reference to export!')
+
     def __len__(self) -> int:
         return len(self._data)
 
