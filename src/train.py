@@ -41,12 +41,12 @@ def main(args: Namespace):
         optimize(model, criterion, optimizer, train_loader, epochs=args.epochs, save_path=args.save_path)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Train a model')
+    parser = argparse.ArgumentParser(description='Training a Deep Learning model')
     
     parser.add_argument('--epochs', type=int, default=10, help='Number of epochs to train for.')
     parser.add_argument('--save_path', default='../models/model.pth', help='Path to save the model.')
     parser.add_argument('--batch_size', type=int, default=32, help='Batch size to use for training.')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate to use for training.')
-    parser.add_argument('--path', default='../data/cat_vs_dog', help='Path to data containing "train" and "val" (optional) folders.')
+    parser.add_argument('--path', type=str, default='../data/cat_vs_dog', help='Path to data containing "train" and "val" (optional) folders.')
 
     main(parser.parse_args())

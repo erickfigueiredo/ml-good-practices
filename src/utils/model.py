@@ -122,6 +122,7 @@ def evaluate(model: nn.Module, dataloader: DataLoader, predict_only: bool = True
 
             print(f'\r{i+1}/{len(dataloader)} {print_progress_bar(i, len(dataloader))}', end='', flush=True)
 
+        print()
         if predict_only:
             return predictions,
 
